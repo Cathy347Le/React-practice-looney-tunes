@@ -1,68 +1,132 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# GA Checkpoint: React
 
-## Available Scripts
+Work is cloned from https://github.com/ga-wdi-exercises/checkpoint-react
 
-In the project directory, you can run:
+## Setup
 
-### `npm start`
+Fork and clone this repo.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**Before you begin anything, run `npm install`.**
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Before You Begin
 
-### `npm test`
+Every component has a test suite associated with it. There are 18 tests in
+total, grouped into 5 suites.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To run the tests in the terminal, run `npm test`. The tests will rerun every
+time you save a file. When running `npm test` in the root of the repo there is
+an prompt to run all of the tests by entering `a`.
 
-### `npm run build`
+When you start, all of the tests will be failing; your goal is to make as many
+pass as you can in the hour provided.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> HINT: read the output of the failing tests.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+> Don't write anything in the `.test.js` files.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Instructions
 
-### `npm run eject`
+You're going to build a simple contact list manager using React and React
+Router. An initial set of contacts has been provided in `contacts.json` and some
+CSS has been provided in `src/styles/index.css`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+> See a demo of the final app at
+> [http://quickest-beam.surge.sh/](http://quickest-beam.surge.sh/)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Add Tweety as a contact in `contacts.json`:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+{
+  name: "Tweety",
+  email: "tweety@gmail.com",
+  profile_picture: "https://upload.wikimedia.org/wikipedia/en/0/02/Tweety.svg"
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Setup
 
-## Learn More
+Inside `index.js`, import React Router and pass it to `ReactDOM.render()` as the
+root component with `<App>` as a child component. We've imported the starter
+contacts for you, pass these in to your `<App>` component as a prop, `contacts`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### `<App>`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Your `<App>` component should accept `contacts` as a prop and use them to set
+the initial state for your component. Setting props as initial state looks like
+this:
 
-### Code Splitting
+```js
+constructor(props) {
+  super(props)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+  this.state = {
+    contacts: props.contacts
+  }
+}
+```
 
-### Analyzing the Bundle Size
+Your `<App>` component should also render:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+- A div with a class name of `'App'`
+- Your `<Header>` component
+- Two `<Route />` components
+- If the route is `"/"` then render the `<ContactList>` component; if the route
+  is `"/new-contact"` then render the `<NewContact>` component;
 
-### Making a Progressive Web App
+### `<Header>`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Your `<Header>` component should render:
 
-### Advanced Configuration
+- A `<header>` element with an `<h1>`
+- A `<nav>` containing two React Router `<Link>`s, one to the homepage (`"/"`)
+  and the other to create a new contact (`"/new-contact"`).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+### `<ContactList>`
 
-### Deployment
+`<ContactList>` should take `contacts` as a prop
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+It should render:
 
-### `npm run build` fails to minify
+- A `<Contact>` component for each contact object inside of the `contacts` prop.
+- A `<div>` with a class of `contact-list`.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### `<Contact>`
+
+Your `<Contact>` component will render a single contact.
+
+It should render:
+
+- An outer `<div>` with a class of `contact`
+- An include an `<img>` for the `profile_picture`,
+- `<h3>` for the `name`
+- `<h4>` for the `email`.
+
+### `<NewContact>`
+
+Your `<NewContact>` component should render:
+
+- An `<h1>` with a text of `New Contact`
+- A form with inputs for the `name`, `email` and `profile_picture`.
+
+When submitted, you should save the new contact by updating your state inside of
+`<App>` and redirect the user back to the homepage/list of contacts.
+
+## Rubric
+
+- App component is defined and exported
+- App component accepts the `contacts` json objects as a prop and the `contacts`
+  json object is properly passed
+- Router is defined and setup using the browser History API
+- Router includes a route for the homepage (`"/"`) and for the new contact page
+  (`"/new-contact"`)
+- Header component is defined and exported
+- Header component contains a title and two `<Link>`s, one to the homepage and
+  the other to the new contact page
+- ContactList component is defined and exported
+- ContactList component iterates through the contacts, rendering a Contact
+  component for each
+- Contact component is defined and exported
+- Contact component is rendering the image, name and email address of a contact
+- NewContact is defined and exported
+- NewContact contains a form that adds a new contact to the parent App component
+  state
