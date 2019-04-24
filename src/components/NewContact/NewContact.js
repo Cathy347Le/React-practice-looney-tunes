@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-//Don't need the breaks but added anyway
-
 class NewContact extends Component {
   constructor(props) {
     super(props);
